@@ -40,7 +40,7 @@ class ResultFragment : DataBindingFragment() {
             .apply {
                 lifecycleOwner = this@ResultFragment
                 vm = viewModel.apply {
-                    fetchLotteryResult(currentDate)
+                    fetchLotteryResult(currentDate, args.lotteryName)
                 }
                 lotteryName = args.lotteryName
                 specialPrizesAdapter = ResultAdapter()

@@ -198,6 +198,7 @@
             android:inputType="date"
             app:date="@{date}"
             app:viewModel="@{vm}"
+            app:lotteryName="@{lotteryName}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/second_price_label"
             app:layout_constraintStart_toStartOf="parent"

@@ -18,6 +18,7 @@ package com.kimhau.lotteryresult.repository
 
 import com.kimhau.lotteryresult.model.LotteryResultResponse
 import com.kimhau.lotteryresult.network.LotteryResultClient
+import com.kimhau.lotteryresult.persistence.ResultDao
 import com.skydoves.sandwich.message
 import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onException
@@ -29,7 +30,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class LotteryResultRepository @Inject constructor(
-  private val lotteryResultClient: LotteryResultClient
+  private val lotteryResultClient: LotteryResultClient,
+  private val resultDao: ResultDao
 ) {
 
   suspend fun fetchLotteryResult(
@@ -37,24 +39,31 @@ class LotteryResultRepository @Inject constructor(
     onSuccess: () -> Unit,
     onError: (String) -> Unit
   ) = flow<LotteryResultResponse?> {
-    val lotteryResult = null;
-    val response = lotteryResultClient.fetcLotteryResult(date = date)
-    response.suspendOnSuccess {
-      data.whatIfNotNull { response ->
-//          pokemonInfoDao.insertPokemonInfo(response)
-        emit(response)
-        onSuccess()
+    val lotteryResult = resultDao.getResult(date)
+    if(lotteryResult == null){
+      val response = lotteryResultClient.fetcLotteryResult(date = date)
+      response.suspendOnSuccess {
+        data.whatIfNotNull { response ->
+          response.drawDate = date
+          resultDao.insertResult(response)
+          emit(response)
+          onSuccess()
+        }
       }
+        // handle the case when the API request gets an error response.
+        // e.g. internal server error.
+        .onError {
+          onError(message())
+        }
+        // handle the case when the API request gets an exception response.
+        // e.g. network connection error.
+        .onException {
+          onError(message())
+        }
+    }else {
+      emit(lotteryResult)
+      onSuccess()
     }
-      // handle the case when the API request gets an error response.
-      // e.g. internal server error.
-      .onError {
-        onError(message())
-      }
-      // handle the case when the API request gets an exception response.
-      // e.g. network connection error.
-      .onException {
-        onError(message())
-      }
+
   }.flowOn(Dispatchers.IO)
 }

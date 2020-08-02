@@ -48,8 +48,8 @@ fun bindOnClick(view: View, navController: NavController){
   }
 }
 
-@BindingAdapter("date", "viewModel")
-fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel){
+@BindingAdapter("date", "viewModel", "lotteryName")
+fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel, lotteryName: String){
   if(view is EditText){
     view.setText(date)
     view.setOnClickListener {
@@ -62,7 +62,7 @@ fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel){
         OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
           val newDate = year.toString() + "-" + (monthOfYear + 1).toString() + "-"+dayOfMonth.toString()
           view.setText(newDate)
-          viewModel.fetchLotteryResult(newDate)
+          viewModel.fetchLotteryResult(newDate, lotteryName)
 
         },
         year,

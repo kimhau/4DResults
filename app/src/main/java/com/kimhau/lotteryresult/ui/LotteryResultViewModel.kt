@@ -12,11 +12,10 @@ import com.kimhau.lotteryresult.repository.LotteryResultRepository
 import timber.log.Timber
 
 class LotteryResultViewModel @ViewModelInject constructor(
-  private val lotteryResultRepository: LotteryResultRepository,
-  @Assisted private val savedStateHandle: SavedStateHandle
+  private val lotteryResultRepository: LotteryResultRepository
 ) : LiveCoroutinesViewModel() {
 
-  private var lotteryResultFetchingLiveData: MutableLiveData<String> = MutableLiveData()
+  private var lotteryResultFetchingLiveData: MutableLiveData<Query> = MutableLiveData()
   val lotteryResultLiveData: LiveData<LotteryResultResponse?>
   var lotteryResultByNameLiveData: MutableLiveData<ResultDetail?> = MutableLiveData()
   val isLoading: ObservableBoolean = ObservableBoolean(false)
@@ -26,11 +25,11 @@ class LotteryResultViewModel @ViewModelInject constructor(
   init {
     Timber.d("init LotteryResultViewModel")
 
-    lotteryResultLiveData = lotteryResultFetchingLiveData.switchMap {
+    lotteryResultLiveData = lotteryResultFetchingLiveData.switchMap { query ->
       isLoading.set(true)
       launchOnViewModelScope {
         lotteryResultRepository.fetchLotteryResult(
-          date = it,
+          date = query.drawDate,
           onSuccess = { isLoading.set(false) },
           onError = { toastLiveData.postValue(it) }
         ).asLiveData()
@@ -38,7 +37,12 @@ class LotteryResultViewModel @ViewModelInject constructor(
     }
   }
 
-  fun fetchLotteryResult(date: String) {
-    lotteryResultFetchingLiveData.value = date
+  fun fetchLotteryResult(date: String, lotteryName: String) {
+    lotteryResultFetchingLiveData.value = Query(date, lotteryName)
   }
 }
+
+data class Query(
+  val drawDate: String,
+  val lotteryName: String
+)
