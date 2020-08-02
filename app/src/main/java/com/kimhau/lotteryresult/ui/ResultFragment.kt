@@ -34,7 +34,7 @@ class ResultFragment : DataBindingFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val sdf = SimpleDateFormat("yyyy-M-d")
         val currentDate = sdf.format(Date())
         return binding<FragmentResultBinding>(inflater, R.layout.fragment_result, null)
             .apply {

@@ -51,7 +51,7 @@ fun bindOnClick(view: View, navController: NavController){
 
 @BindingAdapter("onClick", "drawDate", "lotteryName")
 fun bindOnClick(view: View, viewModel: LotteryResultViewModel, drawDate:String, lotteryName: String){
-  val sdf = SimpleDateFormat("yyyy-MM-dd")
+  val sdf = SimpleDateFormat("yyyy-M-d")
   val todayDate = sdf.format(Date())
   if(todayDate == drawDate){
     view.setOnClickListener {
