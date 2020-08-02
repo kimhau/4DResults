@@ -36,11 +36,12 @@ class LotteryResultRepository @Inject constructor(
 
   suspend fun fetchLotteryResult(
     date: String,
+    isForceUpdate: Boolean = false,
     onSuccess: () -> Unit,
     onError: (String) -> Unit
   ) = flow<LotteryResultResponse?> {
     val lotteryResult = resultDao.getResult(date)
-    if(lotteryResult == null){
+    if(lotteryResult == null || isForceUpdate){
       val response = lotteryResultClient.fetcLotteryResult(date = date)
       response.suspendOnSuccess {
         data.whatIfNotNull { response ->

@@ -29,6 +29,7 @@ import com.kimhau.lotteryresult.model.LotteryResultResponse
 import com.kimhau.lotteryresult.ui.HomeFragmentDirections
 import com.kimhau.lotteryresult.ui.LotteryResultViewModel
 import com.skydoves.whatif.whatIfNotNull
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -46,6 +47,21 @@ fun bindOnClick(view: View, navController: NavController){
       navController.navigate(HomeFragmentDirections.actionHomeFragmentToResultFragment(view.text.toString()))
     }
   }
+}
+
+@BindingAdapter("onClick", "drawDate", "lotteryName")
+fun bindOnClick(view: View, viewModel: LotteryResultViewModel, drawDate:String, lotteryName: String){
+  val sdf = SimpleDateFormat("yyyy-MM-dd")
+  val todayDate = sdf.format(Date())
+  if(todayDate == drawDate){
+    view.setOnClickListener {
+      viewModel.fetchLotteryResult(drawDate, lotteryName, true)
+    }
+  }
+  else{
+    view.visibility = View.GONE
+  }
+
 }
 
 @BindingAdapter("date", "viewModel", "lotteryName")
@@ -68,7 +84,9 @@ fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel, lotter
         year,
         month,
         day
-      )
+      ).apply {
+        datePicker.maxDate = Date().time
+      }
       picker.show()
     }
   }

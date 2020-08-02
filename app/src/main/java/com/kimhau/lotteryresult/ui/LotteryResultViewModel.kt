@@ -30,6 +30,7 @@ class LotteryResultViewModel @ViewModelInject constructor(
       launchOnViewModelScope {
         lotteryResultRepository.fetchLotteryResult(
           date = query.drawDate,
+          isForceUpdate = query.isForceUpdate,
           onSuccess = { isLoading.set(false) },
           onError = { toastLiveData.postValue(it) }
         ).asLiveData()
@@ -37,12 +38,13 @@ class LotteryResultViewModel @ViewModelInject constructor(
     }
   }
 
-  fun fetchLotteryResult(date: String, lotteryName: String) {
-    lotteryResultFetchingLiveData.value = Query(date, lotteryName)
+  fun fetchLotteryResult(date: String, lotteryName: String, isForceUpdate: Boolean = false) {
+    lotteryResultFetchingLiveData.value = Query(date, lotteryName, isForceUpdate)
   }
 }
 
 data class Query(
   val drawDate: String,
-  val lotteryName: String
+  val lotteryName: String,
+  val isForceUpdate: Boolean
 )
