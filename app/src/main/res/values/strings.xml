@@ -9,4 +9,14 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="special">Special</string>
+    <string name="consolation">Consolation</string>
+    <string name="_2nd">2nd</string>
+    <string name="_1st">1st</string>
+    <string name="magnum">Magnum</string>
+    <string name="damacai">Damacai</string>
+    <string name="toto">Toto</string>
+    <string name="singapore_pool">Singapore Pool</string>
 </resources>
