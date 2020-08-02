@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.kimhau.lotteryresult.ui.LotteryResultViewModel" />
+
+        <variable
+            name="lotteryName"
+            type="String" />
+
+        <variable
+            name="specialPrizesAdapter"
+            type="com.kimhau.lotteryresult.ui.adapter.ResultAdapter" />
+
+        <variable
+            name="consolationPrizesAdapter"
+            type="com.kimhau.lotteryresult.ui.adapter.ResultAdapter" />
+
+        <variable
+            name="date"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
+        android:padding="20sp"
+        app:results="@{vm.lotteryResultLiveData}"
+        app:viewModel="@{vm}"
+        app:toast="@{vm.toastLiveData}"
+        app:lotteryName="@{lotteryName}"
+        tools:context=".ui.ResultFragment">
+
+        <TextView
+            android:id="@+id/first_price_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/first_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/second_price_label"
+            android:layout_marginRight="3sp"
+            android:text="@string/_1st"
+            style="@style/label" />
+
+        <TextView
+            android:id="@+id/first_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/second_price"
+            app:layout_constraintBottom_toTopOf="@id/special_label"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:text="@{vm.lotteryResultByNameLiveData.firstPrize[0]}"
+            tools:text="1234"
+            android:layout_marginBottom="10sp"
+            style="@style/priceText" />
+
+        <TextView
+            android:id="@+id/second_price_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/second_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/_2nd"
+            app:layout_constraintWidth_percent="0.33"
+            style="@style/label"
+            />
+
+        <TextView
+            android:id="@+id/second_price"
+            android:layout_width="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/special_label"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            app:layout_constraintWidth_percent="0.33"
+            style="@style/priceText"
+            android:layout_marginBottom="10sp"
+            android:text="@{vm.lotteryResultByNameLiveData.secondPrize[0]}"
+            tools:text="1234" />
+
+        <TextView
+            android:id="@+id/third_price_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/third_price"
+            app:layout_constraintStart_toEndOf="@id/second_price_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="3sp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="@string/_2nd"
+            style="@style/label"
+            />
+
+        <TextView
+            android:id="@+id/third_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/special_label"
+            app:layout_constraintStart_toEndOf="@id/second_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            style="@style/priceText"
+            android:layout_marginBottom="10sp"
+            android:text="@{vm.lotteryResultByNameLiveData.thirdPrize[0]}"
+            tools:text="1234" />
+
+        <TextView
+            android:id="@+id/special_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/special_price_list"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="@string/special"
+            style="@style/label"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/special_price_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="3"
+            tools:itemCount="10"
+            tools:layout_editor_absoluteX="16dp"
+            tools:listitem="@layout/item_result"
+            app:adapter="@{specialPrizesAdapter}"
+            app:adapterResults="@{vm.lotteryResultByNameLiveData.specialPrizes}"
+            />
+
+        <TextView
+            android:id="@+id/consolation_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/special_price_list"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="@string/consolation"
+            android:layout_marginTop="10sp"
+            style="@style/label"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/consolation_price_list"
+            app:layout_constraintTop_toBottomOf="@+id/consolation_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_result"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:itemCount="10"
+            app:adapter="@{consolationPrizesAdapter}"
+            app:adapterResults="@{vm.lotteryResultByNameLiveData.consolationPrizes}"
+            />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:gone="@{!vm.isLoading()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{lotteryName}"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/editTextDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Title"
+            />
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            app:date="@{date}"
+            app:viewModel="@{vm}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/second_price_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:focusable="false"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
