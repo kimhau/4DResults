@@ -17,12 +17,7 @@
 package com.kimhau.lotteryresult.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.kimhau.lotteryresult.R
 import dagger.hilt.android.AndroidEntryPoint
 

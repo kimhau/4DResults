@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2020 skydoves (Jaewoong Eum)
+ * Copyright 2020 kimhau (Kim Hau Wong)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class LotteryResultRepository @Inject constructor(
     onError: (String) -> Unit
   ) = flow<LotteryResultResponse?> {
     val lotteryResult = resultDao.getResult(date)
-    if(lotteryResult == null || isForceUpdate){
+    if (lotteryResult == null || isForceUpdate) {
       val response = lotteryResultClient.fetcLotteryResult(date = date)
       response.suspendOnSuccess {
         data.whatIfNotNull { response ->
@@ -61,10 +61,9 @@ class LotteryResultRepository @Inject constructor(
         .onException {
           onError(message())
         }
-    }else {
+    } else {
       emit(lotteryResult)
       onSuccess()
     }
-
   }.flowOn(Dispatchers.IO)
 }

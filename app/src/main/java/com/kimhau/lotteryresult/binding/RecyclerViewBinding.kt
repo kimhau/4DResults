@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2020 skydoves (Jaewoong Eum)
+ * Copyright 2020 kimhau (Kim Hau Wong)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ package com.kimhau.lotteryresult.binding
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kimhau.lotteryresult.ui.adapter.ResultAdapter
-import com.skydoves.whatif.whatIfNotNull
-import com.skydoves.whatif.whatIfNotNullOrEmpty
 
 @BindingAdapter("adapter")
 fun bindAdapter(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {

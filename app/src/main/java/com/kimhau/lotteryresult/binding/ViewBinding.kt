@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2020 skydoves (Jaewoong Eum)
+ * Copyright 2020 kimhau (Kim Hau Wong)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import com.kimhau.lotteryresult.ui.HomeFragmentDirections
 import com.kimhau.lotteryresult.ui.LotteryResultViewModel
 import com.skydoves.whatif.whatIfNotNull
 import java.text.SimpleDateFormat
-import java.util.*
-
+import java.util.Calendar
+import java.util.Date
 
 @BindingAdapter("toast")
 fun bindToast(view: View, text: LiveData<String>) {
@@ -41,8 +41,8 @@ fun bindToast(view: View, text: LiveData<String>) {
 }
 
 @BindingAdapter("onClick")
-fun bindOnClick(view: View, navController: NavController){
-  if(view is Button){
+fun bindOnClick(view: View, navController: NavController) {
+  if (view is Button) {
     view.setOnClickListener {
       navController.navigate(HomeFragmentDirections.actionHomeFragmentToResultFragment(view.text.toString()))
     }
@@ -50,23 +50,21 @@ fun bindOnClick(view: View, navController: NavController){
 }
 
 @BindingAdapter("onClick", "drawDate", "lotteryName")
-fun bindOnClick(view: View, viewModel: LotteryResultViewModel, drawDate:String, lotteryName: String){
+fun bindOnClick(view: View, viewModel: LotteryResultViewModel, drawDate: String, lotteryName: String) {
   val sdf = SimpleDateFormat("yyyy-M-d")
   val todayDate = sdf.format(Date())
-  if(todayDate == drawDate){
+  if (todayDate == drawDate) {
     view.setOnClickListener {
       viewModel.fetchLotteryResult(drawDate, lotteryName, true)
     }
-  }
-  else{
+  } else {
     view.visibility = View.GONE
   }
-
 }
 
 @BindingAdapter("date", "viewModel", "lotteryName")
-fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel, lotteryName: String){
-  if(view is EditText){
+fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel, lotteryName: String) {
+  if (view is EditText) {
     view.setText(date)
     view.setOnClickListener {
       val cldr: Calendar = Calendar.getInstance()
@@ -74,12 +72,11 @@ fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel, lotter
       val month: Int = cldr.get(Calendar.MONTH)
       val year: Int = cldr.get(Calendar.YEAR)
       val picker = DatePickerDialog(
-       view.context,
+        view.context,
         OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-          val newDate = year.toString() + "-" + (monthOfYear + 1).toString() + "-"+dayOfMonth.toString()
+          val newDate = year.toString() + "-" + (monthOfYear + 1).toString() + "-" + dayOfMonth.toString()
           view.setText(newDate)
           viewModel.fetchLotteryResult(newDate, lotteryName)
-
         },
         year,
         month,
@@ -93,20 +90,20 @@ fun bindDate(view: View, date: String, viewModel: LotteryResultViewModel, lotter
 }
 
 @BindingAdapter("results", "viewModel", "lotteryName")
-fun bindResults(view: View, results: LiveData<LotteryResultResponse?>, viewModel: LotteryResultViewModel, lotteryName: String){
+fun bindResults(view: View, results: LiveData<LotteryResultResponse?>, viewModel: LotteryResultViewModel, lotteryName: String) {
   results.value.whatIfNotNull {
-    when(lotteryName){
-      "Magnum" ->  viewModel.lotteryResultByNameLiveData.postValue(it.magnum.apply {
-        if(this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
+    when (lotteryName) {
+      "Magnum" -> viewModel.lotteryResultByNameLiveData.postValue(it.magnum.apply {
+        if (this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
       })
-      "Damacai" ->  viewModel.lotteryResultByNameLiveData.postValue(it.damacai.apply {
-        if(this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
+      "Damacai" -> viewModel.lotteryResultByNameLiveData.postValue(it.damacai.apply {
+        if (this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
       })
-      "Toto" ->   viewModel.lotteryResultByNameLiveData.postValue(it.toto.apply {
-        if(this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
+      "Toto" -> viewModel.lotteryResultByNameLiveData.postValue(it.toto.apply {
+        if (this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
       })
-      else ->  viewModel. lotteryResultByNameLiveData.postValue(it.singaporePool.apply {
-        if(this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
+      else -> viewModel.lotteryResultByNameLiveData.postValue(it.singaporePool.apply {
+        if (this == null) viewModel.toastLiveData.postValue("No draw on selected date.")
       })
     }
   }

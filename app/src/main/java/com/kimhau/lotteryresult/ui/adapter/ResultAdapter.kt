@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2020 skydoves (Jaewoong Eum)
+ * Copyright 2020 kimhau (Kim Hau Wong)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,6 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultViewHolder>() {
       items.addAll(it)
     }
     notifyDataSetChanged()
-
   }
 
   override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {

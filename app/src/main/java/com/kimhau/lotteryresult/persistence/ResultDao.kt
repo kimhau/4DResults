@@ -1,5 +1,5 @@
 /*
- * Designed and developed by 2020 skydoves (Jaewoong Eum)
+ * Copyright 2020 kimhau (Kim Hau Wong)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,5 +29,5 @@ interface ResultDao {
   suspend fun insertResult(result: LotteryResultResponse)
 
   @Query("SELECT * FROM LotteryResultResponse WHERE drawDate = :drawDate_")
-  suspend fun getResult(drawDate_: String):LotteryResultResponse
+  suspend fun getResult(drawDate_: String): LotteryResultResponse
 }

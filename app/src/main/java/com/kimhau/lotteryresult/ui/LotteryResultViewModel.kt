@@ -1,10 +1,27 @@
+/*
+ * Copyright 2020 kimhau (Kim Hau Wong)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.kimhau.lotteryresult.ui
 
-import android.content.Context
 import androidx.databinding.ObservableBoolean
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import com.kimhau.lotteryresult.base.LiveCoroutinesViewModel
 import com.kimhau.lotteryresult.model.LotteryResultResponse
 import com.kimhau.lotteryresult.model.ResultDetail
@@ -20,7 +37,6 @@ class LotteryResultViewModel @ViewModelInject constructor(
   var lotteryResultByNameLiveData: MutableLiveData<ResultDetail?> = MutableLiveData()
   val isLoading: ObservableBoolean = ObservableBoolean(false)
   val toastLiveData: MutableLiveData<String> = MutableLiveData()
-  var context: Context? = null
 
   init {
     Timber.d("init LotteryResultViewModel")
