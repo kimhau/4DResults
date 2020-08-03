@@ -10,6 +10,7 @@
 Also fetching data from the network and integrating persisted data in the database via repository pattern.
 </p>
 <br/>
+
 ## Tech stack & Open-source libraries
 - Minimum SDK level 21
 - [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
