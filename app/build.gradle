@@ -35,6 +35,11 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+        test.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'
